@@ -1,5 +1,5 @@
-ARG FROM=19.03.13-dind-rootless
-FROM docker:${FROM}
+ARG DOCKER=19.03.13-dind-rootless
+FROM docker:${DOCKER}
 
 ARG CRUN_VERSION=0.15
 
