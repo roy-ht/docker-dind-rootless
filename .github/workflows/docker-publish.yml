@@ -23,12 +23,15 @@ jobs:
   push:
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
-
+    timeout-minutes: 20
+    strategy:
+      matrix:
+        docker: ['19.03.13-dind-rootless']
+        crun: ['0.15']
     steps:
       - uses: actions/checkout@v2
-
       - name: Build image
-        run: docker build . --file Dockerfile --build-arg DOCKER=19.03.13-dind-rootless CRUN_VERSION=0.15 -t docker-dind-rootless:latest
+        run: docker build . --file Dockerfile --build-arg DOCKER=${{ matrix.docker }} CRUN_VERSION=%{{ matrix.crun }} -t docker-dind-rootless:latest
 
       - name: Log into GitHub Container Registry
       # TODO: Create a PAT with `read:packages` and `write:packages` scopes and save it as an Actions secret `CR_PAT`
@@ -36,7 +39,6 @@ jobs:
 
       - name: Push image to GitHub Container Registry
         run: |
-          REPO=ghcr.io/${{ github.repository_owner }}
-
-          docker tag docker-dind-rootless:latest $REPO/docker-dind-rootless:19.03.13-crun0.15
-          docker push $REPO/docker-dind-rootless:19.03.13-crun0.15
+          REPO=ghcr.io/${{ github.repository_owner }}/docker-dind-rootless
+          docker tag docker-dind-rootless:latest $REPO:${{ matrix.docker }}-crun${{ matrix.crun }}
+          docker push $REPO:${{ matrix.docker }}-crun${{ matrix.crun }}
