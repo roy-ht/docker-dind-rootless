@@ -10,4 +10,8 @@ RUN mkdir -p /usr/local/bin/ \
     && chmod 755 crun \
     && mv crun /usr/local/bin/
 
+RUN wget -O fuse-overlayfs https://github.com/containers/fuse-overlayfs/releases/download/v1.2.0/fuse-overlayfs-x86_64 \
+    && chmod 755 fuse-overlayfs \
+    && mv fuse-overlayfs /usr/local/bin/
+
 USER rootless
