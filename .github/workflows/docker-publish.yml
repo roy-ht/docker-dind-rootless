@@ -31,7 +31,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build image
-        run: docker build . --file Dockerfile --build-arg DOCKER=${{ matrix.docker }} CRUN_VERSION=%{{ matrix.crun }} -t docker-dind-rootless:latest
+        run: docker build . --file Dockerfile --build-arg DOCKER=${{ matrix.docker }} CRUN_VERSION=${{ matrix.crun }} -t docker-dind-rootless:latest
 
       - name: Log into GitHub Container Registry
       # TODO: Create a PAT with `read:packages` and `write:packages` scopes and save it as an Actions secret `CR_PAT`
