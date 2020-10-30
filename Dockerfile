@@ -14,8 +14,9 @@ RUN wget -O fuse-overlayfs https://github.com/containers/fuse-overlayfs/releases
     && chmod 755 fuse-overlayfs \
     && mv fuse-overlayfs /usr/local/bin/
 
-RUN apk add --no-cache fuse3-dev
+# RUN apk add --no-cache fuse3-dev
 
-RUN mkdir -p /opt/containerd/bin
+RUN mkdir -p /opt/containerd/bin \
+    && mkdir -p /opt/containerd/lib
 
 USER rootless
