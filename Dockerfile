@@ -22,9 +22,8 @@ RUN set -eux; \
     echo 'rootless2:165536:65536' >> /etc/subuid; \
     echo 'rootless2:165536:65536' >> /etc/subgid
 
-# pre-create "/var/lib/docker" for our rootless user
 RUN set -eux; \
     mkdir -p /home/rootless2/.local/share/docker; \
-    chown -R rootless2:rootless2 /home/rootless/.local/share/docker
+    chown -R rootless2:rootless2 /home/rootless2
 
 USER rootless
