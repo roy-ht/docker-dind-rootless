@@ -9,7 +9,8 @@ RUN mkdir /run/user && chmod 1777 /run/user
 
 # create a default user preconfigured for running rootless dockerd
 RUN set -eux; \
-    adduser -h /home/rootless -g 'Rootless' -D -u 1000 rootless; \
+    addgroup -g 1337 rootless; \
+    adduser -h /home/rootless -g 'Rootless' -G rootless -D -u 1000 rootless; \
     echo 'rootless:100000:65536' >> /etc/subuid; \
     echo 'rootless:100000:65536' >> /etc/subgid
 
