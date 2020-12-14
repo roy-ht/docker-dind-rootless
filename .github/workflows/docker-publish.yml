@@ -25,8 +25,8 @@ jobs:
     timeout-minutes: 20
     strategy:
       matrix:
-        docker: ['19.03.13-dind', '20.10.0-dind']
-        crun: ['0.15']
+        docker: ['19.03.13-dind-rootless', '20.10.0-dind-rootless']
+        crun: ['0.16']
     steps:
       - uses: actions/checkout@v2
       - name: Build image
@@ -41,3 +41,10 @@ jobs:
           REPO=ghcr.io/${{ github.repository_owner }}/docker-dind-rootless
           docker tag docker-dind-rootless:latest $REPO:${{ matrix.docker }}-rootless-crun${{ matrix.crun }}
           docker push $REPO:${{ matrix.docker }}-rootless-crun${{ matrix.crun }}
+
+      - name: Push latest image to GitHub Container Registry
+        if: matrix.docker == '20.10.0-dind-rootless' && matrix.crun == '0.16'
+        run: |
+          REPO=ghcr.io/${{ github.repository_owner }}/docker-dind-rootless
+          docker tag docker-dind-rootless:latest $REPO:latest
+          docker push $REPO:latest
