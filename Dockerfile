@@ -3,6 +3,8 @@ FROM docker:${DOCKER}
 
 USER root
 
+RUN apk --no-cache add shadow
+
 # modify group
 RUN set -eux \
     && groupmod -g 1337 rootless \
