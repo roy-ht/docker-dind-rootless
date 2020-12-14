@@ -8,7 +8,7 @@ RUN apk --no-cache add shadow
 # modify group
 RUN set -eux \
     && groupmod -g 1337 rootless \
-    && find / -gid 1000 -exec chgrp -v 1337 '{}'
+    && find / -group 1000 -exec chgrp -v 1337 '{}'
 
 ARG CRUN_VERSION=0.15
 
