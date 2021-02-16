@@ -11,14 +11,10 @@ RUN apk add --no-cache iproute2
 RUN mkdir /run/user && chmod 1777 /run/user
 
 # create a default user preconfigured for running rootless dockerd
-# some container includes an large number of uid/gids. See https://github.com/rootless-containers/usernetes/issues/55
 RUN set -eux; \
 	adduser -h /home/rootless -g 'Rootless' -D -u 1000 rootless; \
-	echo 'dockremap:100000:65536' > /etc/subuid; \
-	echo 'dockremap:100000:65536' > /etc/subgid; \
-	echo 'rootless:165536:655360' >> /etc/subuid; \
-	echo 'rootless:165536:655360' >> /etc/subgid
-
+	echo 'rootless:100000:65536' >> /etc/subuid; \
+	echo 'rootless:100000:65536' >> /etc/subgid
 
 RUN set -eux; \
 	\
