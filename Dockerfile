@@ -16,8 +16,8 @@ RUN set -eux; \
 	adduser -h /home/rootless -g 'Rootless' -D -u 1000 rootless; \
 	echo 'dockremap:100000:65536' > /etc/subuid; \
 	echo 'dockremap:100000:65536' > /etc/subgid; \
-	echo 'rootless:165536:131072' >> /etc/subuid; \
-	echo 'rootless:165536:131072' >> /etc/subgid
+	echo 'rootless:165536:655360' >> /etc/subuid; \
+	echo 'rootless:165536:655360' >> /etc/subgid
 
 
 RUN set -eux; \
