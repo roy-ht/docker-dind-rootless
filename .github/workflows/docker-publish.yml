@@ -23,6 +23,6 @@ jobs:
       - uses: docker/build-push-action@v2
         with:
           context: .
-          file: ./Dockerfile.new
+          file: '{context}/Dockerfile.new'
           push: true
           tags: ghcr.io/${{ github.repository_owner }}/docker-dind-rootless:${{ github.sha }}
