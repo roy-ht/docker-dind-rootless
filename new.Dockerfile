@@ -2,6 +2,8 @@ FROM docker:22.06.0-beta.0-dind-rootless
 
 USER root
 
+RUN apk --no-cache add shadow
+
 # modify group
 RUN set -eux \
     && groupmod -g 1337 rootless \
