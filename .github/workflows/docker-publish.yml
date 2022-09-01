@@ -15,7 +15,6 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v2
       - uses: docker/login-action@v2
         with:
           registry: ghcr.io
@@ -23,6 +22,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - uses: docker/build-push-action@v2
         with:
-          file: Dockerfile.new
+          context: .
+          file: ./Dockerfile.new
           push: true
           tags: ghcr.io/${{ github.repository_owner }}/docker-dind-rootless:${{ github.sha }}
