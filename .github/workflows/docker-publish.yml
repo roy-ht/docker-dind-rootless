@@ -5,14 +5,6 @@ on:
     # Publish `master` as Docker `latest` image.
     branches:
       - master
-
-    # Publish `v1.2.3` tags as releases.
-    tags:
-      - v*
-
-  # Run tests for any PRs.
-  pull_request:
-
 env:
   DOCKER_BUILDKIT: '1'
 
@@ -21,30 +13,16 @@ jobs:
   # See also https://docs.docker.com/docker-hub/builds/
   push:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push'
     timeout-minutes: 20
-    strategy:
-      matrix:
-        docker: ['19.03.13-dind', '20.10.2-dind']
-        crun: ['0.16']
     steps:
       - uses: actions/checkout@v2
-      - name: Build image
-        run: docker build . --file Dockerfile --build-arg DOCKER=${{ matrix.docker }} --build-arg CRUN_VERSION=${{ matrix.crun }} -t docker-dind-rootless:latest
-
-      - name: Log into GitHub Container Registry
-      # TODO: Create a PAT with `read:packages` and `write:packages` scopes and save it as an Actions secret `CR_PAT`
-        run: echo "${{ secrets.CR_PAT }}" | docker login https://ghcr.io -u ${{ github.actor }} --password-stdin
-
-      - name: Push image to GitHub Container Registry
-        run: |
-          REPO=ghcr.io/${{ github.repository_owner }}/docker-dind-rootless
-          docker tag docker-dind-rootless:latest $REPO:${{ matrix.docker }}-rootless-crun${{ matrix.crun }}
-          docker push $REPO:${{ matrix.docker }}-rootless-crun${{ matrix.crun }}
-
-      - name: Push latest image to GitHub Container Registry
-        if: matrix.docker == '20.10.2-dind' && matrix.crun == '0.16'
-        run: |
-          REPO=ghcr.io/${{ github.repository_owner }}/docker-dind-rootless
-          docker tag docker-dind-rootless:latest $REPO:latest
-          docker push $REPO:latest
+      - uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/build-push-action@v2
+        with:
+          file: Dockerfile.new
+          push: true
+          tags: ghcr.io/${{ github.repository_owner }}/docker-dind-rootless:${{ github.sha }}
