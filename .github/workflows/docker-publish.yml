@@ -23,6 +23,6 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - uses: docker/build-push-action@v2
         with:
-          file: Dockerfile.new
+          file: new.Dockerfile
           push: true
           tags: ghcr.io/${{ github.repository_owner }}/docker-dind-rootless:${{ github.sha }}
