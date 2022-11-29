@@ -1,4 +1,4 @@
-FROM docker:22.06.0-beta.0-dind-rootless
+FROM docker:20.10.21-dind-rootless
 
 USER root
 
