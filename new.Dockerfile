@@ -10,6 +10,7 @@ RUN set -eux \
     && find / -group 1000 -exec chgrp -v 1337 '{}' \;
 
 # Delete data dir to mount other volume
-RUN rm -rf /home/rootless/.local/share/docker
+RUN rm -rf /home/rootless/.local/share/docker \
+    && chown -R rootless:rootless /home/rootless/
 
 USER rootless
