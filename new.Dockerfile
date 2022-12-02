@@ -2,7 +2,7 @@ FROM docker:20.10.21-dind-rootless
 
 USER root
 
-RUN apk --no-cache add shadow
+RUN apk --no-cache add shadow setpriv
 
 # modify group
 RUN set -eux \
