@@ -12,5 +12,7 @@ RUN set -eux \
 # Delete data dir to mount other volume
 RUN rm -rf /home/rootless
 
-USER rootless
+COPY entrypoint.sh /usr/local/bin/override-entrypoint.sh
+RUN chmod 755 /usr/local/bin/override-entrypoint.sh
 
+ENTRYPOINT ["override-entrypoint.sh"]
