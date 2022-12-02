@@ -9,5 +9,8 @@ RUN set -eux \
     && groupmod -g 1337 rootless \
     && find / -group 1000 -exec chgrp -v 1337 '{}' \;
 
+# Delete data dir to mount other volume
+RUN rm -rf /home/rootless
+
 USER rootless
 
