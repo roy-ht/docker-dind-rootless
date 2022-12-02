@@ -1,7 +1,7 @@
 #!/bin/sh
 
-if [ -d /home/rootless ]; then
-    chown rootless:rootless /home/rootless
+if [ -d /home/rootless/.local/share/docker ]; then
+    chown rootless:rootless /home/rootless/.local/share/docker
 fi
 
-exec setpriv --reuid=1000 --regid=1337 --init-groups docker-entrypoint.sh "$@"
+exec setpriv --reuid=1000 --regid=1337 --init-groups dockerd-entrypoint.sh "$@"

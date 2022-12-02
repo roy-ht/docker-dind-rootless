@@ -2,7 +2,7 @@ FROM docker:20.10.21-dind-rootless
 
 USER root
 
-RUN apk --no-cache add shadow
+RUN apk --no-cache add shadow setpriv
 
 # modify group
 RUN set -eux \
@@ -13,4 +13,7 @@ RUN set -eux \
 RUN rm -rf /home/rootless/.local/share/docker \
     && chown -R rootless:rootless /home/rootless/
 
-USER rootless
+COPY entrypoint.sh /usr/local/bin/override-entrypoint.sh
+RUN chmod 755 /usr/local/bin/override-entrypoint.sh
+
+ENTRYPOINT ["override-entrypoint.sh"]
